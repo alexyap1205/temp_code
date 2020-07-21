@@ -14,8 +14,8 @@ namespace TestRobot
         public void TestPlaceSuccess()
         {
             this.Given(s => s.SurfaceIsSet())
-                .When(s => s.RobotIsPlacedAt(0, 0, Direction.North))
-                .Then(s => s.ReportResultsTo(0, 0, Direction.North))
+                .When(s => s.RobotIsPlacedAt(3, 3, Direction.East))
+                .Then(s => s.ReportResultsTo(3, 3, Direction.East))
                 .BDDfy();
         }
 
@@ -34,7 +34,7 @@ namespace TestRobot
         
         private void RobotIsPlacedAt(int x, int y, Direction facing)
         {
-            _robot.PositionAt(0, 0, facing);
+            _robot.PositionAt(x, y, facing);
         }
     }
 }

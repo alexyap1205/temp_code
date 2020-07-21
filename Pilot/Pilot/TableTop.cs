@@ -16,7 +16,7 @@ namespace Pilot
         
         public bool IsValidPosition(int x, int y)
         {
-            return !(x < 0 || y < 0 || x > this._width || y > this._height);
+            return !(x < 0 || y < 0 || x >= this._width || y >= this._height);
         }
     }
 }
