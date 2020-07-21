@@ -19,6 +19,19 @@ namespace TestRobot
                 .BDDfy();
         }
 
+        [Theory]
+        [InlineData(-1, 2, Direction.East)]
+        [InlineData(2, -1, Direction.East)]
+        [InlineData(5, 2, Direction.East)]
+        [InlineData(2, 5, Direction.East)]
+        public void TestPlaceOutside(int x, int y, Direction facing)
+        {
+            this.Given(s => s.SurfaceIsSet())
+                .When(s => s.RobotIsPlacedAt(x, y, Direction.East))
+                .Then(s => s.ReportResultsTo(0, 0, Direction.North))
+                .BDDfy();
+        }
+
         private void ReportResultsTo(int x, int y, Direction facing)
         {
             var report = _robot.CurrentPosition;
