@@ -27,11 +27,44 @@ namespace TestRobot
         public void TestPlaceOutside(int x, int y, Direction facing)
         {
             this.Given(s => s.SurfaceIsSet())
-                .When(s => s.RobotIsPlacedAt(x, y, Direction.East))
+                .When(s => s.RobotIsPlacedAt(x, y, facing))
                 .Then(s => s.ReportResultsTo(0, 0, Direction.North))
                 .BDDfy();
         }
 
+        [Theory]
+        [InlineData(0, 0, Direction.East, 1, 0)]
+        [InlineData(0, 0, Direction.North, 0, 1)]
+        [InlineData(4, 4, Direction.West, 3, 4)]
+        [InlineData(4, 4, Direction.South, 4, 3)]
+        public void TestMove(int x, int y, Direction facing, int newX, int newY)
+        {
+            this.Given(s => s.SurfaceIsSet())
+                .And(s => s.RobotIsPlacedAt(x, y, facing))
+                .When(s => s.RobotMoves())
+                .Then(s => s.ReportResultsTo(newX, newY, facing))
+                .BDDfy();
+        }
+
+        [Theory]
+        [InlineData(0, 0, Direction.West)]
+        [InlineData(0, 0, Direction.South)]
+        [InlineData(4, 4, Direction.East)]
+        [InlineData(4, 4, Direction.North)]
+        public void TestMoveOutsideBoundary(int x, int y, Direction facing)
+        {
+            this.Given(s => s.SurfaceIsSet())
+                .And(s => s.RobotIsPlacedAt(x, y, facing))
+                .When(s => s.RobotMoves())
+                .Then(s => s.ReportResultsTo(x, y, facing))
+                .BDDfy();
+        }
+
+        private void RobotMoves()
+        {
+            _robot.Move();
+        }
+        
         private void ReportResultsTo(int x, int y, Direction facing)
         {
             var report = _robot.CurrentPosition;
